@@ -49,6 +49,6 @@ models.Usuario.belongsToMany(models.Usuario, {as: 'Amigos', through: models.Usua
 
 /* Faz a sincronização entre os modelos e o banco de dados */
 models.sequelize.sync();
-app.listen(3000, function(){
-    console.log('ouvindo na porta 3000');
+app.listen(8080, function(){
+    console.log('ouvindo na porta 8080');
 });
