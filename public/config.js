@@ -2,7 +2,7 @@
 var app = angular.module('app');
 
 app.factory('Config', function(){
-    var urlBase = 'http://localhost:3000';
+    var urlBase = '';
     return {
         getUrlBase: function(){
             return urlBase;
