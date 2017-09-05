@@ -37,7 +37,7 @@ app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFacto
             return;
         }
         document.getElementById('postar').disabled = true;
-        document.getElementById('loader').style.visibility = 'block';
+        document.getElementById('loader').style.visibility = 'visible';
         var post = new Post(descricao, file);
         PostFactory.criar(post).then(
             function(dados){
@@ -83,12 +83,19 @@ app.controller('registrarController', ['$scope', 'UsuarioFactory', '$location', 
 
         var usuario = new Usuario(nome, nasc, login, email, senha, file);
 
+        document.getElementById('subreg').disabled = true;
+        document.getElementById('loader').style.visibility = 'visible';
+
         UsuarioFactory.registrar(usuario).then(
             function(dados){
+                document.getElementById('subreg').disabled = false;
+                document.getElementById('loader').style.visibility = 'hidden';
                 alert('Registrado com sucesso');
                 $location.path('/login');
             },
             function(err){
+                document.getElementById('subreg').disabled = false;
+                document.getElementById('loader').style.visibility = 'hidden';
                 alert(err);
             },
             function(evt){
