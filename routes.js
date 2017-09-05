@@ -29,7 +29,7 @@ var storage = multer.diskStorage({
 module.exports = {
 
     listarPosts: function(req, res){
-        models.sequelize.query("SELECT p.descricao as `descricao_post`, p.imagem as `imagem_post`, u2.login as `login_dono` FROM `Posts` p JOIN `UsuarioAmigos` ua ON ua.AmigoId=p.usuario_id JOIN `Usuarios` u ON u.id=ua.UsuarioId JOIN `Usuarios` u2 ON u2.id=ua.AmigoId WHERE u.id=? ORDER BY p.createdAt DESC", { replacements: [parseInt(req.decoded.id)], type: models.sequelize.QueryTypes.SELECT}).then(
+        models.sequelize.query("SELECT p.id, p.descricao as `descricao_post`, p.imagem as `imagem_post`, u2.login as `login_dono` FROM `Posts` p JOIN `UsuarioAmigos` ua ON ua.AmigoId=p.usuario_id JOIN `Usuarios` u ON u.id=ua.UsuarioId JOIN `Usuarios` u2 ON u2.id=ua.AmigoId WHERE u.id=? ORDER BY p.createdAt DESC", { replacements: [parseInt(req.decoded.id)], type: models.sequelize.QueryTypes.SELECT}).then(
             function(posts){
                 res.send(posts);
             }
@@ -147,7 +147,7 @@ module.exports = {
                         imagem: encontrado[0].imagem,
                         id: encontrado[0].id},
                         config.jwtKey,
-                        {expiresIn: '10m'}
+                        {expiresIn: '1y'}
                     );
                     return res.send(token);
                 }
@@ -308,5 +308,32 @@ module.exports = {
 
     teste: function(req, res){
         res.send('');
+    },
+
+    removePost: function(req, res){
+        var id = req.body.id;
+        models.Post.find(
+            {'where': {'id': id}, 'include': models.Usuario}
+        ).then(
+            function(p){
+                if(req.decoded.id != p.Usuario.id){
+                    res.send({'erro': true, 'mensagem': 'Você não pode deletar esse post!'});
+                }
+                if(p){
+                    var dir = './uploads/'+p.imagem;
+                    fs.unlinkSync(dir);
+
+                    p.destroy().then(
+                        function(){
+                            res.send({'erro': false, 'mensagem': 'Deletado com sucesso!'});
+                            return;
+                        }
+                    );
+                }
+                else{
+                    res.send({'erro': true, 'mensagem': 'Não encontrado!'});
+                }
+            }
+        );
     }
 };

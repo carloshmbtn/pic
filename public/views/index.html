@@ -38,7 +38,7 @@
     <div class="row">
       <div class="col-md-9 col-md-offset-2">
         <div ng-repeat="p in posts track by $index" class="postado">
-          <p>{{p.descricao_post}} -- (<a href="{{url+'/#/perfil/'+p.login_dono}}">{{p.login_dono}}</a>)</p>
+          <p>{{p.descricao_post}} -- (<a href="{{url+'/#/perfil/'+p.login_dono}}">{{p.login_dono}}</a>) <button ng-click="removePost(p.id);">Remover</button></p>
           <img ng-src="{{url+'/imagem/'+p.imagem_post}}" class="img-responsive">
         </div>
       </div>

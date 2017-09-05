@@ -40,6 +40,7 @@ app.get('/amigo/:id', routes.valida, routes.adicionarAmigo);
 app.get('/verificaAmigo/:id', routes.verificaAmigo);
 app.get('/buscarPerfil/:nome', routes.buscarPerfil);
 app.get('/teste', routes.valida, routes.teste);
+app.post('/post/remove', routes.valida, routes.removePost);
 
 /* relações entre entidades */
 

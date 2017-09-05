@@ -3,7 +3,7 @@ var app = angular.module('app');
 /* var app recebendo o modulo app do angular */
 
 /* Definindo controladoras, [dependencias( variaveis com $ são do proprio angular)] */
-app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFactory', 'Config', function($scope, dados, UsuarioFactory, PostFactory, Config){
+app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFactory', 'Config', '$http', function($scope, dados, UsuarioFactory, PostFactory, Config, $http){
     $scope.dados = dados;
     $scope.usuario = UsuarioFactory;
     $scope.posts = [];
@@ -54,6 +54,18 @@ app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFacto
                 document.getElementById('loader').style.visibility = 'hidden';
             }
         );
+    };
+
+    $scope.removePost = function(id){
+        var c = confirm('Tem certeza que deseja remover o post?');
+        if(c){
+            $http.post('/post/remove', {'id': id}).then(
+                function(res){
+                    $scope.buscaPost();
+                    alert(res.data.mensagem);
+                }
+            );
+        }
     };
 }]);
 
