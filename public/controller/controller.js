@@ -32,6 +32,12 @@ app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFacto
     );
 
     $scope.postar = function(file, descricao){
+        if(!file || !descricao){
+            alert('Descrição é obrigatória');
+            return;
+        }
+        document.getElementById('postar').disabled = true;
+        document.getElementById('loader').style.visibility = 'block';
         var post = new Post(descricao, file);
         PostFactory.criar(post).then(
             function(dados){
@@ -39,6 +45,13 @@ app.controller('appController', ['$scope', 'dados', 'UsuarioFactory', 'PostFacto
                 $scope.buscaPost();
                 $scope.file = null;
                 $scope.descricao = null;
+                document.getElementById('postar').disabled = false;
+                document.getElementById('loader').style.visibility = 'hidden';
+            },
+            function(){
+                alert('Erro');
+                document.getElementById('postar').disabled = true;
+                document.getElementById('loader').style.visibility = 'hidden';
             }
         );
     };

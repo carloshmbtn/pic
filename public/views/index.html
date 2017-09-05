@@ -14,7 +14,7 @@
                       </div>
                     </div>
                     <div class="col-md-9">
-                      <textarea class="form-control textbox" ng-model="descricao"></textarea>
+                      <textarea class="form-control textbox" ng-model="descricao" required></textarea>
                     </div>
                   </div>
                 </div>
@@ -23,18 +23,10 @@
           <div class="form-group">
             <div class="row rowButtons">
                 <div class="col-md-3">
-                  <input id="inputImage" type="file" ngf-select ng-model="file" ngf-pattern="'image/*'" accept="image/*" name="file" required class="postar" style="visibility: hidden"/>
-                  <label for="inputImage" class="inputImage">Imagem</label>
+                  <input id="inputImage" type="file" ngf-select ng-model="file" ngf-pattern="'image/*'" accept="image/*" name="file" required/>
+                  <button id="postar">Postar</button>
+                  <div class="loader" id="loader" style="visibility: hidden;"></div>
                 </div>
-                <div class="col-md-9">
-                  <button class="postar">Postar</button>
-                </div>
-
-              <div class="col-md-4">
-
-              </div>
-              <div class="col-md-4">
-
               </div>
             </div>
           </div>
